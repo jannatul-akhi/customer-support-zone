@@ -12,7 +12,7 @@ const initialTickets = [
         status: 'Open',
         priority: 'High',
         customer: 'John Smith',
-        date: '1/15/2024',
+        createdAt: '1/15/2024',
     },
     {
         id: '#1002',
@@ -22,7 +22,7 @@ const initialTickets = [
         status: 'Open',
         priority: 'High',
         customer: 'Sarah Johnson',
-        date: '1/16/2024',
+        createdAt: '1/16/2024',
     },
     {
         id: '#1003',
@@ -32,7 +32,7 @@ const initialTickets = [
         status: 'In-Progress',
         priority: 'Medium',
         customer: 'Michael Brown',
-        date: '1/17/2024',
+        createdAt: '1/17/2024',
     },
     {
         id: '#1004',
@@ -42,7 +42,7 @@ const initialTickets = [
         status: 'Open',
         priority: 'Low',
         customer: 'Emily Davis',
-        date: '1/18/2024',
+        createdAt: '1/18/2024',
     },
     {
         id: '#1005',
@@ -52,7 +52,7 @@ const initialTickets = [
         status: 'Open',
         priority: 'High',
         customer: 'David Wilson',
-        date: '1/19/2024',
+        createdAt: '1/19/2024',
     },
     {
         id: '#1006',
@@ -62,7 +62,7 @@ const initialTickets = [
         status: 'In-Progress',
         priority: 'Medium',
         customer: 'Sophia Taylor',
-        date: '1/20/2024',
+        createdAt: '1/20/2024',
     },
     {
         id: '#1007',
@@ -72,7 +72,7 @@ const initialTickets = [
         status: 'Open',
         priority: 'High',
         customer: 'James Anderson',
-        date: '1/21/2024',
+        createdAt: '1/21/2024',
     },
     {
         id: '#1008',
@@ -82,7 +82,7 @@ const initialTickets = [
         status: 'Open',
         priority: 'Low',
         customer: 'Olivia Martinez',
-        date: '1/22/2024',
+        createdAt: '1/22/2024',
     },
     {
         id: '#1009',
@@ -92,7 +92,7 @@ const initialTickets = [
         status: 'In-Progress',
         priority: 'Medium',
         customer: 'Liam Thomas',
-        date: '1/23/2024',
+        createdAt: '1/23/2024',
     },
     {
         id: '#1010',
@@ -102,7 +102,52 @@ const initialTickets = [
         status: 'Open',
         priority: 'Medium',
         customer: 'Isabella Garcia',
-        date: '1/24/2024',
+        createdAt: '1/24/2024',
+    },
+    {
+        id: '#1011',
+        title: 'Slow Website Performance',
+        description: 'Customer reports that the dashboard takes more than 10 seconds to load on Chrome.',
+        status: 'Open',
+        priority: 'Medium',
+        customer: 'Noah Wilson',
+        createdAt: '1/25/2024',
+    },
+    {
+        id: '#1012',
+        title: 'Account Settings Not Saving',
+        description: 'Changes to email notification preferences are not being saved after clicking update.',
+        status: 'Open',
+        priority: 'Low',
+        customer: 'Emma Thompson',
+        createdAt: '1/26/2024',
+    },
+    {
+        id: '#1013',
+        title: 'API Integration Failure',
+        description: 'Webhook notifications are failing with a 500 error for the production environment.',
+        status: 'Open',
+        priority: 'High',
+        customer: 'Lucas Miller',
+        createdAt: '1/27/2024',
+    },
+    {
+        id: '#1014',
+        title: 'Promo Code Not Applying',
+        description: 'The code "WELCOME2024" is showing as expired but should be valid until March.',
+        status: 'Open',
+        priority: 'Medium',
+        customer: 'Mia White',
+        createdAt: '1/28/2024',
+    },
+    {
+        id: '#1015',
+        title: 'Duplicate Charges Found',
+        description: 'Customer was charged twice for their monthly professional subscription.',
+        status: 'Open',
+        priority: 'High',
+        customer: 'Ethan Harris',
+        createdAt: '1/29/2024',
     },
 ];
 
@@ -158,100 +203,33 @@ function TicketCard({ ticket, onSelect, isSelected }) {
                 <div className="flex items-center gap-2 text-gray-500">
                     <span>{ticket.customer}</span>
                     <Calendar className="w-3.5 h-3.5" />
-                    <span>{ticket.date}</span>
+                    <span>{ticket.createdAt}</span>
                 </div>
             </div>
         </div>
     );
 }
 
-function StatCard({ title, count, gradient }) {
+const Transaction = ({ tickets, taskStatus, resolvedTickets, handleSelectTicket, handleComplete, selectedIds }) => {
     return (
-        <div className={`rounded-xl p-6 text-white ${gradient} relative overflow-hidden`}>
-            <div className="absolute inset-0 opacity-10">
-                <svg className="w-full h-full" viewBox="0 0 400 200">
-                    <defs>
-                        <pattern id={`grid-${title}`} width="40" height="40" patternUnits="userSpaceOnUse">
-                            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1" />
-                        </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill={`url(#grid-${title})`} />
-                    <path d="M0,100 Q100,50 200,100 T400,100" fill="none" stroke="white" strokeWidth="2" opacity="0.3" />
-                    <path d="M0,120 Q100,70 200,120 T400,120" fill="none" stroke="white" strokeWidth="2" opacity="0.3" />
-                </svg>
-            </div>
-            <div className="relative z-10 text-center">
-                <p className="text-lg font-medium mb-2">{title}</p>
-                <p className="text-5xl font-bold">{count}</p>
-            </div>
-        </div>
-    );
-}
-
-const Transaction = () => {
-    const [tickets, setTickets] = useState(initialTickets);
-    const [taskStatus, setTaskStatus] = useState([]);
-    const [resolvedTickets, setResolvedTickets] = useState([]);
-    const [selectedIds, setSelectedIds] = useState(new Set());
-
-    const inProgressCount = taskStatus.length;
-    const resolvedCount = resolvedTickets.length;
-
-    const handleSelectTicket = (ticket) => {
-        if (selectedIds.has(ticket.id)) {
-            toast.info(`"${ticket.title}" is already in Task Status.`);
-            return;
-        }
-        setTaskStatus(prev => [...prev, ticket]);
-        setSelectedIds(prev => new Set([...prev, ticket.id]));
-        toast.success(`Ticket "${ticket.title}" added to Task Status!`);
-    };
-
-    const handleComplete = (ticket) => {
-        // Remove from task status
-        setTaskStatus(prev => prev.filter(t => t.id !== ticket.id));
-        // Remove from customer tickets
-        setTickets(prev => prev.filter(t => t.id !== ticket.id));
-        // Add to resolved
-        setResolvedTickets(prev => [...prev, { ...ticket, status: 'Resolved' }]);
-        // Remove from selected set
-        setSelectedIds(prev => {
-            const next = new Set(prev);
-            next.delete(ticket.id);
-            return next;
-        });
-        toast.success(`Ticket "${ticket.title}" has been resolved! 🎉`);
-    };
-
-    return (
-        <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+        <div className="min-h-screen bg-gray-50 pt-28 pb-8 px-4 md:px-8">
             <div className="max-w-7xl mx-auto">
-                {/* Banner / Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <StatCard
-                        title="In-Progress"
-                        count={inProgressCount}
-                        gradient="bg-gradient-to-br from-violet-500 to-violet-700"
-                    />
-                    <StatCard
-                        title="Resolved"
-                        count={resolvedCount}
-                        gradient="bg-gradient-to-br from-emerald-400 to-emerald-600"
-                    />
-                </div>
-
                 {/* Main Content */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Customer Tickets */}
                     <div className="lg:col-span-2">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                            Customer Tickets
-                            <span className="ml-2 text-sm font-normal text-gray-500">({tickets.length} open)</span>
-                        </h2>
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-xl font-bold text-slate-800">
+                                Customer Tickets
+                            </h2>
+                            <span className="bg-slate-200 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-full">
+                                {tickets.length} OPEN
+                            </span>
+                        </div>
                         {tickets.length === 0 ? (
-                            <div className="bg-white rounded-lg border border-gray-200 p-8 text-center text-gray-400">
-                                <CheckCircle2 className="w-10 h-10 mx-auto mb-2 text-emerald-400" />
-                                <p>All tickets have been resolved!</p>
+                            <div className="bg-white rounded-xl border border-dashed border-slate-300 p-12 text-center">
+                                <CheckCircle2 className="w-12 h-12 mx-auto mb-3 text-emerald-400 opacity-60" />
+                                <p className="text-slate-500 font-medium">All tickets have been resolved!</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -269,63 +247,70 @@ const Transaction = () => {
 
                     {/* Task Status Panel */}
                     <div className="lg:col-span-1">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Task Status</h2>
-                        <div className="bg-white rounded-lg border border-gray-200 p-4 mb-4">
-                            <p className="text-gray-400 text-sm mb-4">
-                                Click any ticket card to add it here
-                            </p>
-
+                        <h2 className="text-xl font-bold text-slate-800 mb-4">Task Status</h2>
+                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 sticky top-8">
                             {/* In-Progress Tasks */}
-                            <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-                                In-Progress ({taskStatus.length})
-                            </h3>
-                            {taskStatus.length === 0 ? (
-                                <div className="flex items-center gap-2 text-gray-400 mb-4 p-3 bg-gray-50 rounded-lg">
-                                    <AlertCircle className="w-4 h-4" />
-                                    <span className="text-sm">No tasks in progress.</span>
-                                </div>
-                            ) : (
-                                <div className="space-y-2 mb-4">
-                                    {taskStatus.map((ticket) => (
-                                        <div key={ticket.id} className="bg-amber-50 border border-amber-100 rounded-lg p-3">
-                                            <p className="text-sm font-medium text-gray-800 mb-1 line-clamp-1">{ticket.title}</p>
-                                            <p className="text-xs text-gray-500 mb-2">{ticket.customer} · {ticket.id}</p>
-                                            <button
-                                                onClick={() => handleComplete(ticket)}
-                                                className="w-full py-1.5 px-3 bg-gradient-to-r from-emerald-400 to-emerald-600 text-white text-xs font-semibold rounded-md hover:brightness-110 transition flex items-center justify-center gap-1"
-                                            >
-                                                <CheckCircle2 className="w-3.5 h-3.5" />
-                                                Mark Complete
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                            <div className="mb-6">
+                                <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center justify-between">
+                                    <span className="flex items-center gap-2">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]"></span>
+                                        In-Progress
+                                    </span>
+                                    <span className="text-slate-400 text-xs font-normal">({taskStatus.length})</span>
+                                </h3>
+                                {taskStatus.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center py-8 px-4 bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                                        <AlertCircle className="w-6 h-6 text-slate-300 mb-2" />
+                                        <span className="text-xs text-slate-400 text-center">Select a ticket from the left to start working on it</span>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-3">
+                                        {taskStatus.map((ticket) => (
+                                            <div key={ticket.id} className="bg-amber-50/50 border border-amber-100 rounded-xl p-4 transition-all hover:shadow-sm">
+                                                <p className="text-sm font-bold text-slate-800 mb-1 line-clamp-1">{ticket.title}</p>
+                                                <p className="text-xs text-slate-500 mb-3">{ticket.customer} · {ticket.id}</p>
+                                                <button
+                                                    onClick={() => handleComplete(ticket)}
+                                                    className="w-full py-2 px-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-xs font-bold rounded-lg hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-sm"
+                                                >
+                                                    <CheckCircle2 className="w-4 h-4" />
+                                                    Mark Complete
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
 
                             {/* Resolved Tasks */}
-                            <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-blue-400"></span>
-                                Resolved ({resolvedTickets.length})
-                            </h3>
-                            {resolvedTickets.length === 0 ? (
-                                <div className="flex items-center gap-2 text-gray-400 p-3 bg-gray-50 rounded-lg">
-                                    <AlertCircle className="w-4 h-4" />
-                                    <span className="text-sm">No resolved tasks yet.</span>
-                                </div>
-                            ) : (
-                                <div className="space-y-2">
-                                    {resolvedTickets.map((ticket) => (
-                                        <div key={ticket.id} className="bg-blue-50 border border-blue-100 rounded-lg p-3 flex items-start gap-2">
-                                            <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                                            <div>
-                                                <p className="text-sm font-medium text-gray-700 line-clamp-1">{ticket.title}</p>
-                                                <p className="text-xs text-gray-400">{ticket.customer}</p>
+                            <div>
+                                <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center justify-between">
+                                    <span className="flex items-center gap-2">
+                                        <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"></span>
+                                        Resolved
+                                    </span>
+                                    <span className="text-slate-400 text-xs font-normal">({resolvedTickets.length})</span>
+                                </h3>
+                                {resolvedTickets.length === 0 ? (
+                                    <div className="py-6 px-4 bg-slate-50 rounded-xl border border-dashed border-slate-200 text-center">
+                                        <span className="text-xs text-slate-300">No tickets resolved yet.</span>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 thin-scrollbar">
+                                        {resolvedTickets.map((ticket) => (
+                                            <div key={ticket.id} className="bg-blue-50/30 border border-blue-100/50 rounded-lg p-3 flex items-center gap-3">
+                                                <div className="bg-emerald-100 rounded-full p-1">
+                                                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <p className="text-xs font-bold text-slate-700 truncate">{ticket.title}</p>
+                                                    <p className="text-[10px] text-slate-400">{ticket.customer}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
