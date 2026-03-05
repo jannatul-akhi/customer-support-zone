@@ -8,7 +8,7 @@ A React-based Customer Support ticketing system where you can view, manage, and 
 
 ## 📦 GitHub Repository
 
-[Repository Link](YOUR_REPO_URL_HERE)
+[Repository Link] (https://github.com/jannatul-akhi/customer-support-zone)
 
 ---
 
@@ -39,123 +39,54 @@ A React-based Customer Support ticketing system where you can view, manage, and 
 
 ### 1. What is JSX, and why is it used?
 
-JSX (JavaScript XML) is a syntax extension for JavaScript that allows you to write HTML-like code directly inside JavaScript files. React uses JSX to describe what the UI should look like.
+JSX stands for JavaScript XML. It is a syntax used in React that allows developers to write HTML-like code inside JavaScript. JSX makes it easier to design and visualize the UI structure of a component.
 
-**Example:**
+Instead of using complex JavaScript methods to create elements, JSX lets developers write code that looks similar to HTML. This improves readability and makes the code easier to understand and maintain.
 
-```jsx
-const element = <h1>Hello, World!</h1>;
-```
-
-JSX is used because it makes the code more readable and intuitive. Instead of calling `React.createElement()` manually for every element, JSX lets you write familiar HTML-style markup. Under the hood, Babel compiles JSX into regular JavaScript that the browser can understand.
+For example, instead of writing long JavaScript functions to create elements, we can simply write JSX to describe how the UI should look.
 
 ---
 
 ### 2. What is the difference between State and Props?
 
-| Feature   | State                                               | Props                                        |
-| --------- | --------------------------------------------------- | -------------------------------------------- |
-| Ownership | Belongs to the component itself                     | Passed from parent to child                  |
-| Mutable   | Yes — can be changed using `setState` or `useState` | No — read-only inside the child              |
-| Purpose   | Manages internal, dynamic data                      | Passes data or functions to child components |
+State and Props are both used to manage data in React, but they work differently.
 
-**State example:**
+Props (Properties) are used to pass data from a parent component to a child component. Props are read-only, which means the child component cannot change them.
 
-```jsx
-const [count, setCount] = useState(0);
-```
+State, on the other hand, is used to manage data inside a component. State can change over time, and when it changes, the component automatically re-renders to update the UI.
 
-**Props example:**
-
-```jsx
-<TicketCard ticket={ticket} onSelect={handleSelect} />
-```
-
-In short: **state** is private and controlled by the component, **props** are external and controlled by the parent.
+In simple terms, props are passed from outside the component, while state is managed within the component itself.
 
 ---
 
 ### 3. What is the useState hook, and how does it work?
 
-`useState` is a built-in React hook that lets functional components hold and update local state.
+useState is a React Hook that allows functional components to manage state. Before hooks were introduced, state was mainly used in class components, but useState made it possible to use state in functional components.
 
-**Syntax:**
+The useState hook returns two values:
 
-```jsx
-const [value, setValue] = useState(initialValue);
-```
+The current state value
 
-- `value` — the current state value
-- `setValue` — a function to update the state
-- `initialValue` — the starting value
+A function to update that state
 
-**How it works:** When `setValue` is called with a new value, React re-renders the component and the UI updates to reflect the new state.
+When the state is updated using the setter function, React automatically re-renders the component so the UI reflects the new state.
 
-**Example from this project:**
-
-```jsx
-const [taskStatus, setTaskStatus] = useState([]);
-
-// Adding a ticket to task status:
-setTaskStatus((prev) => [...prev, ticket]);
-```
-
----
+This makes it very useful for things like counters, form inputs, toggles, and dynamic UI updates.
 
 ### 4. How can you share state between components in React?
 
-State is shared between components by **lifting state up** — moving the state to the nearest common parent component, then passing it down as **props** or passing **setter functions** as props so children can update it.
+In React, state is usually shared between components through a concept called lifting state up.
 
-**Example:**
+This means that if multiple components need the same state, the state should be moved to their closest common parent component. The parent component then passes the state and related functions to child components using props.
 
-```jsx
-// Parent holds the state
-const [taskStatus, setTaskStatus] = useState([]);
-
-// Passes state and updater to children
-<TicketList onSelect={(ticket) => setTaskStatus(prev => [...prev, ticket])} />
-<TaskStatusPanel tasks={taskStatus} />
-```
-
-In larger applications, tools like **React Context API** or state management libraries (Redux, Zustand) are used to avoid deeply nested prop passing (called "prop drilling").
-
----
+Another way to share state in larger applications is by using React Context API or state management libraries such as Redux or Zustand.
 
 ### 5. How is event handling done in React?
 
-React handles events using **camelCase** event handler attributes directly on JSX elements, instead of HTML's lowercase attributes.
+Event handling in React is similar to HTML, but it follows JavaScript conventions.
 
-**HTML way:**
+In React, events are written using camelCase, such as onClick, onChange, or onSubmit. Instead of writing strings like in HTML, React uses functions as event handlers.
 
-```html
-<button onclick="handleClick()">Click</button>
-```
+When an event occurs, React calls the specified function to perform an action, such as updating state or triggering some logic.
 
-**React way:**
-
-```jsx
-<button onClick={handleClick}>Click</button>
-```
-
-You can pass inline arrow functions or reference a named function. React automatically handles event binding.
-
-**Example from this project:**
-
-```jsx
-<div onClick={() => onSelect(ticket)}>
-    {/* ticket card content */}
-</div>
-
-<button onClick={() => handleComplete(ticket)}>
-    Mark Complete
-</button>
-```
-
-Common React events: `onClick`, `onChange`, `onSubmit`, `onMouseEnter`, `onKeyDown`, etc.
-
----
-
-## 📅 Assignment Deadline
-
-- **60 marks:** 5th March, 2026 (11:59 PM)
-- **50 marks:** 6th March, 2026 (11:59 PM)
+For example, a button click can call a function that changes the state, which then updates the UI automatically.
