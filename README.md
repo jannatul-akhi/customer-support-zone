@@ -4,11 +4,11 @@ A React-based Customer Support ticketing system where you can view, manage, and 
 
 ## 🚀 Live Demo
 
-[Live Link](YOUR_DEPLOYED_URL_HERE)
+[Live Link](https://customer-support-zone-three.vercel.app/)
 
 ## 📦 GitHub Repository
 
-[Repository Link] (https://github.com/jannatul-akhi/customer-support-zone)
+[Repository Link](https://github.com/jannatul-akhi/customer-support-zone)
 
 ---
 
