@@ -247,34 +247,34 @@ const Transaction = ({ tickets, taskStatus, resolvedTickets, handleSelectTicket,
 
                     {/* Task Status Panel */}
                     <div className="lg:col-span-1">
-                        <h2 className="text-xl font-bold text-slate-800 mb-4">Task Status</h2>
-                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 sticky top-8">
+                        {/* <h2 className="text-xl font-bold text-slate-800 mb-4">Task Status</h2> */}
+                        <div className="p-5 sticky top-8">
                             {/* In-Progress Tasks */}
                             <div className="mb-6">
-                                <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center justify-between">
+                                <h3 className="text-xl font-bold text-slate-700 mb-4 flex items-center justify-between">
                                     <span className="flex items-center gap-2">
-                                        <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]"></span>
-                                        In-Progress
+                                        
+                                        Task Status
                                     </span>
-                                    <span className="text-slate-400 text-xs font-normal">({taskStatus.length})</span>
+                                    {/* <span className="text-slate-400 text-xs font-normal">({taskStatus.length})</span> */}
                                 </h3>
                                 {taskStatus.length === 0 ? (
-                                    <div className="flex flex-col items-center justify-center py-8 px-4 bg-slate-50 rounded-xl border border-dashed border-slate-200">
-                                        <AlertCircle className="w-6 h-6 text-slate-300 mb-2" />
-                                        <span className="text-xs text-slate-400 text-center">Select a ticket from the left to start working on it</span>
+                                    <div className="">
+                                        {/* <AlertCircle className="w-6 h-6 text-slate-300 mb-2" /> */}
+                                        <span className="text-sm text-slate-400 text-start">Select a ticket from the left to start working on it</span>
                                     </div>
                                 ) : (
                                     <div className="space-y-3">
                                         {taskStatus.map((ticket) => (
-                                            <div key={ticket.id} className="bg-amber-50/50 border border-amber-100 rounded-xl p-4 transition-all hover:shadow-sm">
-                                                <p className="text-sm font-bold text-slate-800 mb-1 line-clamp-1">{ticket.title}</p>
-                                                <p className="text-xs text-slate-500 mb-3">{ticket.customer} · {ticket.id}</p>
+                                            <div key={ticket.id} className="bg-white border border-amber-100 rounded-xl p-4 transition-all hover:shadow-sm">
+                                                <p className="text-lg font-bold text-slate-800 mb-1 line-clamp-1">{ticket.title}</p>
+                                                {/* <p className="text-xs text-slate-500 mb-3">{ticket.customer} · {ticket.id}</p> */}
                                                 <button
                                                     onClick={() => handleComplete(ticket)}
-                                                    className="w-full py-2 px-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-xs font-bold rounded-lg hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-sm"
+                                                    className="w-full py-2 px-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white text-xs font-bold rounded-sm hover:brightness-105 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-sm"
                                                 >
-                                                    <CheckCircle2 className="w-4 h-4" />
-                                                    Mark Complete
+                                                    
+                                                    Complete
                                                 </button>
                                             </div>
                                         ))}
@@ -284,27 +284,25 @@ const Transaction = ({ tickets, taskStatus, resolvedTickets, handleSelectTicket,
 
                             {/* Resolved Tasks */}
                             <div>
-                                <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center justify-between">
+                                <h3 className="text-xl font-bold text-slate-700 mb-4 flex items-center justify-between">
                                     <span className="flex items-center gap-2">
-                                        <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"></span>
+                                        
                                         Resolved
                                     </span>
-                                    <span className="text-slate-400 text-xs font-normal">({resolvedTickets.length})</span>
+                                    {/* <span className="text-slate-400 text-xs font-normal">({resolvedTickets.length})</span> */}
                                 </h3>
                                 {resolvedTickets.length === 0 ? (
-                                    <div className="py-6 px-4 bg-slate-50 rounded-xl border border-dashed border-slate-200 text-center">
-                                        <span className="text-xs text-slate-300">No tickets resolved yet.</span>
+                                    <div className="text-start">
+                                        <span className="text-sm text-slate-400">No tickets resolved yet.</span>
                                     </div>
                                 ) : (
                                     <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 thin-scrollbar">
                                         {resolvedTickets.map((ticket) => (
-                                            <div key={ticket.id} className="bg-blue-50/30 border border-blue-100/50 rounded-lg p-3 flex items-center gap-3">
-                                                <div className="bg-emerald-100 rounded-full p-1">
-                                                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                                                </div>
+                                            <div key={ticket.id} className="bg-[#E0E7FF] border border-blue-100/50 rounded-lg p-3 flex items-center gap-3">
+                                               
                                                 <div className="min-w-0">
                                                     <p className="text-xs font-bold text-slate-700 truncate">{ticket.title}</p>
-                                                    <p className="text-[10px] text-slate-400">{ticket.customer}</p>
+                                                    {/* <p className="text-[10px] text-slate-400">{ticket.customer}</p> */}
                                                 </div>
                                             </div>
                                         ))}
