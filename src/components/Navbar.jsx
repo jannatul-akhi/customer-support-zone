@@ -4,7 +4,7 @@ const Navbar = () => {
     return (
         <div className="bg-slate-50">
             <header className="shadow-2xl bg-white">
-                <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+                <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
                     {/* Logo */}
                     <div className="flex items-center gap-2 text-base font-semibold tracking-tight text-slate-900">
                         <span>CS</span>
